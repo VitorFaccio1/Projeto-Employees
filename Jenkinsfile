@@ -7,8 +7,29 @@ node {
   }       
 
   stage('Build') {
-      withGradle {
-        sh './gradlew clean build --stacktrace -i'
-      }  
-  }  
+      steps {
+          sh 'gradle clean build'
+      }
+  }
+
+  stage('Test') {
+      steps {
+          sh 'gradle test'
+      }
+  }
+
+  stage('Deploy') {
+      steps {
+          sh 'gradle deploy'
+      }
+  }
+
+  post {
+      success {
+          echo 'Publicacao bem sucedida!!!'
+      }
+      failure {
+          echo 'Publicacao falhou!!!'
+      }
+  }
 }
